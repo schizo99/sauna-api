@@ -1,6 +1,6 @@
 const Influx = require('influx')
 const influx = new Influx.InfluxDB({
-  host: 'localhost',
+  host: process.env.INFLUX_HOST || 'localhost',
   database: 'sauna_db',
   schema: [
     {

@@ -11,7 +11,8 @@ influx.getDatabaseNames()
     }
   })
   .catch(err => {
-    console.error(`Error creating Influx database!`, error);
+    console.error(`Error creating Influx database!`, err);
+    return process.exit(1)
   })
 
 app.use(function(req, res, next) {
