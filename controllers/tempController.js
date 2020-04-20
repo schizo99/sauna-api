@@ -1,7 +1,6 @@
 const influx = require('../models/tempModel')
 
 const addTemp = (req, res) => {
-  console.log(req.body.temp)
   influx.writePoints([
     {
       measurement: 'temperatures',
@@ -13,6 +12,16 @@ const addTemp = (req, res) => {
     res.status(500).send(`Error saving data to InfluxDB! ${err.stack}`)
   })
 };
+
+const getTemp = (req, res) => {
+  influx.query(`
+    select last("temp") from temperatures
+  `).then(result => {
+    res.json(result)
+  }).catch(err => {
+    res.status(500).send(err.stack)
+  })
+}
 
 const getTemps = (req, res) => {
   influx.query(`
@@ -26,4 +35,4 @@ const getTemps = (req, res) => {
   })
 }
 
-module.exports = { addTemp, getTemps }
+module.exports = { addTemp, getTemp, getTemps }
