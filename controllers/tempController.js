@@ -24,10 +24,9 @@ const getTemp = (req, res) => {
 }
 
 const getTemps = (req, res) => {
+  const hours = req.params.hours;
   influx.query(`
-    select * from temperatures
-    order by time desc
-    limit 10
+    select * from temperatures where time > now() - ${hours}h
   `).then(result => {
     res.json(result)
   }).catch(err => {
