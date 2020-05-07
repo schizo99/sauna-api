@@ -25,8 +25,11 @@ const getTemp = (req, res) => {
 
 const getTemps = (req, res) => {
   const hours = req.params.hours;
+  const aggregation = 16 * hours;
   influx.query(`
-    select * from temperatures where time > now() - ${hours}h
+    SELECT FIRST(temp) as temp
+    FROM temperatures where time > now() - ${hours}h
+    GROUP BY time(${aggregation}s)
   `).then(result => {
     res.json(result)
   }).catch(err => {
