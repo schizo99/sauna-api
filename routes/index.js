@@ -4,7 +4,7 @@ const app = (app) => {
   app.route('/temp')
     .get(temperature.getTemp)
     .post(temperature.addTemp)
-  app.route('/temps/:days')
+  app.route('/temps/:days/:hours')
     .get(temperature.getTemps)
   app.route('/send')
     .post(temperature.sendSignal)

@@ -39,7 +39,8 @@ const sendSignal = (req, res) => {
 
 const getTemps = (req, res) => {
   const days = req.params.days;
-  const aggregation = 16 * days * 24;
+  const hours = req.params.hours
+  const aggregation = 10 * days * hours;
   influx.query(`
     SELECT FIRST(temp) as temp
     FROM temperatures where time > now() - ${days}d
