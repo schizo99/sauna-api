@@ -6,6 +6,8 @@ const app = (app) => {
     .post(temperature.addTemp)
   app.route('/temps/:days')
     .get(temperature.getTemps)
+  app.route('/send')
+    .post(temperature.sendSignal)
 } 
 
 module.exports = app
