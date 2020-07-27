@@ -16,7 +16,7 @@ const addTemp = (req, res) => {
 
 const getTemp = (req, res) => {
   influx.query(`
-    select last("temp") from temperatures
+    select last("temp") as temp from temperatures
   `).then(result => {
     res.json(result)
   }).catch(err => {
