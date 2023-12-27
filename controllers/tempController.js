@@ -40,11 +40,11 @@ const sendSignal = (req, res) => {
 const getTemps = (req, res) => {
   const days = req.params.days;
   const hours = req.params.hours
-  const aggregation = 10 * days * hours;
+  const aggregation = 10 * days;
   influx.query(`
     SELECT FIRST(temp) as temp
     FROM temperatures where time > now() - ${days}d
-    GROUP BY time(${aggregation}s)
+    GROUP BY time(${aggregation}s) fill(none)
   `).then(result => {
     res.json(result)
   }).catch(err => {
