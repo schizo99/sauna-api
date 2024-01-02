@@ -36,7 +36,18 @@ const sendSignal = (req, res) => {
     console.error(error)
   })
 }
+const getTimes = (req, res) => {
+  influx.query(`
+    SELECT LAST("temp") AS last_temp
+    FROM "temperatures" WHERE "temp" >= 7000
+    GROUP BY time(1d) fill(none)
+  `).then(result => {
+    res.json(result)
+  }).catch(err => {
+    res.status(500).send(err.stack)
+  })
 
+}
 const getTemps = (req, res) => {
   const days = req.params.days;
   const hours = req.params.hours
@@ -52,4 +63,4 @@ const getTemps = (req, res) => {
   })
 }
 
-module.exports = { addTemp, getTemp, getTemps, sendSignal }
+module.exports = { addTemp, getTemp, getTemps, sendSignal, getTimes }
